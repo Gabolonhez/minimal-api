@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using minimal_api.Infraestructure.Db;
+using minimal_api.Domain.Services;
+using minimal_api.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IAdmnistratorService, AdmnistratorService>();
 
 // Configure DB context using connection string from configuration
 var mysqlConnection = builder.Configuration.GetConnectionString("mysql");
@@ -37,9 +41,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapPost("/login", (LoginDTO loginDTO) =>
+app.MapPost("/login", (LoginDTO loginDTO, IAdmnistratorService admnistratorService) =>
 {
-    if (loginDTO.Email == "adm@test.com" && loginDTO.Password == "123456")
+    var admin = admnistratorService.Login(loginDTO);
+
+    if (admin != null)
     {
         return Results.Ok("Login successfully");
     }
@@ -48,6 +54,7 @@ app.MapPost("/login", (LoginDTO loginDTO) =>
         return Results.Unauthorized();
     }
 });
+
 
 app.Run();
 

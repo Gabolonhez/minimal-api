@@ -18,6 +18,19 @@ namespace minimal_api.Infraestructure.Db
         // (Opcional) mantém a propriedade DbSet
         public DbSet<Admnistrator> Admnistrators { get; set; } = null!;
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Admnistrator>().HasData(
+                new Admnistrator
+                {
+                    Id = 1,
+                    Email = "admnistrator@test.com",
+                    Password = "123456",
+                    Profile = "Admin"
+                }
+            );
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Só tenta configurar aqui se não foi configurado via DI e se temos configuração disponível

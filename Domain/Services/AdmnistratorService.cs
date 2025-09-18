@@ -1,8 +1,11 @@
 ﻿using minimal_api.Domain.Interfaces;
 using minimal_api.Domain.Entities;
 using minimal_api.Infraestructure.Db;
+using minimal_api.Domain.Services;
+using minimal_api.Domain.DTOs;
 
 using Microsoft.EntityFrameworkCore;
+
 
 namespace minimal_api.Domain.Services
 {

@@ -2,10 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using minimal_api.Infraestructure.Db;
 using minimal_api.Domain.Services;
 using minimal_api.Domain.Interfaces;
+using minimal_api.Domain.DTOs;
+using minimal_api.Domain.ModelsViews;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IAdmnistratorService, AdmnistratorService>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 // Configure DB context using connection string from configuration
 var mysqlConnection = builder.Configuration.GetConnectionString("mysql");
@@ -28,6 +33,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseSwagger();
+app.UseSwaggerUI();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -40,6 +48,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/", () => Results.Json(new Home()));
 
 app.MapPost("/login", (LoginDTO loginDTO, IAdmnistratorService admnistratorService) =>
 {
@@ -56,11 +66,8 @@ app.MapPost("/login", (LoginDTO loginDTO, IAdmnistratorService admnistratorServi
 });
 
 
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.Run();
 
-public class LoginDTO
-{
-    public string Email { get; set; } = default!;
-
-    public string Password { get; set; } = default!;
-}

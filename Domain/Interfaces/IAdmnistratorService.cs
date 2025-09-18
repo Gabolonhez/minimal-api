@@ -1,4 +1,5 @@
-﻿using minimal_api.Domain.Entities;
+﻿using minimal_api.Domain.DTOs;
+using minimal_api.Domain.Entities;
 
 namespace minimal_api.Domain.Interfaces
 {

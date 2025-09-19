@@ -1,13 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using minimal_api.Infraestructure.Db;
-using minimal_api.Domain.Services;
-using minimal_api.Domain.Interfaces;
 using minimal_api.Domain.DTOs;
+using minimal_api.Domain.Entities;
+using minimal_api.Domain.Interfaces;
 using minimal_api.Domain.ModelsViews;
+using minimal_api.Domain.Services;
+using minimal_api.Infraestructure.Db;
+using System.Xml.Linq;
+
+#region Builder 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IAdmnistratorService, AdmnistratorService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -33,6 +38,49 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+#endregion
+
+#region Home
+app.MapGet("/", () => Results.Json(new Home()));
+#endregion
+
+#region Administrators Login
+app.MapPost("admnistrators/login", (LoginDTO loginDTO, IAdmnistratorService admnistratorService) =>
+{
+    var admin = admnistratorService.Login(loginDTO);
+
+    if (admin != null)
+    {
+        return Results.Ok("Login successfully");
+    }
+    else
+    {
+        return Results.Unauthorized();
+    }
+});
+#endregion
+
+#region Vehicles
+
+app.MapPost("/vehicles", (VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
+{
+
+    var vehicle = new Vehicle
+    {
+        Name = vehicleDTO.Name,
+        Brand = vehicleDTO.Brand,
+        Year = vehicleDTO.Year
+    };
+
+    vehicleService.Insert(vehicle);
+
+    return Results.Created($"/vehicle/{vehicle.Id}", vehicle);
+});
+#endregion
+
+
+#region App
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -49,25 +97,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", () => Results.Json(new Home()));
-
-app.MapPost("/login", (LoginDTO loginDTO, IAdmnistratorService admnistratorService) =>
-{
-    var admin = admnistratorService.Login(loginDTO);
-
-    if (admin != null)
-    {
-        return Results.Ok("Login successfully");
-    }
-    else
-    {
-        return Results.Unauthorized();
-    }
-});
-
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
 app.Run();
 
+#endregion

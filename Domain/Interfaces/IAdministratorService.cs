@@ -3,8 +3,8 @@ using minimal_api.Domain.Entities;
 
 namespace minimal_api.Domain.Interfaces
 {
-    public interface IAdmnistratorService
+    public interface IAdministratorService
     {
-        Admnistrator? Login(LoginDTO loginDTO);
+        Administrator? Login(LoginDTO loginDTO);
     }
 }

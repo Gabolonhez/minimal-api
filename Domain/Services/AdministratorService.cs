@@ -9,18 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace minimal_api.Domain.Services
 {
-    public class AdmnistratorService : IAdmnistratorService
+    public class AdministratorService : IAdministratorService
     {
         private readonly DbContext _context;
 
-        public AdmnistratorService(DbContext db)
+        public AdministratorService(DbContext db)
         {
             _context = db;
         }
 
-        public Admnistrator? Login(LoginDTO loginDTO)
+        public Administrator? Login(LoginDTO loginDTO)
         {
-            var adm = _context.Set<Admnistrator>().Where(a => a.Email == loginDTO.Email && a.Password == loginDTO.Password).FirstOrDefault();
+            var adm = _context.Set<Administrator>().Where(a => a.Email == loginDTO.Email && a.Password == loginDTO.Password).FirstOrDefault();
             return adm;
         }
     }

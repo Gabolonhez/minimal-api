@@ -16,14 +16,14 @@ namespace minimal_api.Infraestructure.Db
         }
 
         // (Opcional) mantém a propriedade DbSet
-        public DbSet<Admnistrator> Admnistrators { get; set; } = null!;
+        public DbSet<Administrator> Admnistrators { get; set; } = null!;
 
         public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Admnistrator>().HasData(
-                new Admnistrator
+            modelBuilder.Entity<Administrator>().HasData(
+                new Administrator
                 {
                     Id = 1,
                     Email = "admnistrator@test.com",

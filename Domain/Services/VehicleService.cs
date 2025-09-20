@@ -13,7 +13,7 @@ namespace minimal_api.Domain.Services
             _context = db;
         }
 
-        public List<Vehicle> All(int page = 1, string? name = null, string? brand = null)
+        public List<Vehicle> All(int? page = 1, string? name = null, string? brand = null)
         {
             var query = _context.Set<Vehicle>().AsQueryable();
             if (!string.IsNullOrEmpty(name))
@@ -23,7 +23,11 @@ namespace minimal_api.Domain.Services
 
             int itensPerPage = 10;
 
-            query = query.Skip((page - 1) * itensPerPage).Take(itensPerPage);
+            if (page != null) { 
+
+            query = query.Skip(((int)page - 1) * itensPerPage).Take(itensPerPage);
+
+            }
 
             return query.ToList();
         }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace minimal_api.Domain.Entities
 {
-    public class Admnistrator
+    public class Administrator
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,6 +20,6 @@ namespace minimal_api.Domain.Entities
 
         [Required]
         [StringLength(15)]
-        public string Profile { get; set; } = default!;
+        public Profile Profile { get; set; } = default!;
     }
 }

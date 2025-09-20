@@ -1,6 +1,8 @@
 ﻿namespace minimal_api.Domain.ModelsViews
 {
-    public class ValidationErrors
+    public struct ValidationErrors
     {
+        public List<string> Messages { get; set; }
+
     }
 }

@@ -11,7 +11,7 @@ using minimal_api.Infraestructure.Db;
 namespace minimal_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250917022649_VehicleMigrations")]
+    [Migration("20250920011108_VehicleMigrations")]
     partial class VehicleMigrations
     {
         /// <inheritdoc />
@@ -59,6 +59,32 @@ namespace minimal_api.Migrations
                             Password = "123456",
                             Profile = "Admin"
                         });
+                });
+
+            modelBuilder.Entity("minimal_api.Domain.Entities.Vehicle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vehicles");
                 });
 #pragma warning restore 612, 618
         }

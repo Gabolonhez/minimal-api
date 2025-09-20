@@ -1,6 +1,8 @@
 ﻿namespace minimal_api.Domain.Enuns
 {
-    public class Profile
+    public enum Profile
     {
+        adm,
+        editor
     }
 }

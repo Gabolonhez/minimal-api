@@ -1,39 +1,37 @@
 ﻿using minimal_api.Domain.Interfaces;
 using minimal_api.Domain.Entities;
 using minimal_api.Infraestructure.Db;
-using minimal_api.Domain.Services;
 using minimal_api.Domain.DTOs;
-
+using minimal_api.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace minimal_api.Domain.Services
 {
     public class AdministratorService : IAdministratorService
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context; // Changed from DbContext to ApplicationDbContext
 
-        public AdministratorService(DbContext db)
+        public AdministratorService(ApplicationDbContext context) // Changed parameter type
         {
-            _context = db;
+            _context = context;
         }
 
         public Administrator? Login(LoginDTO loginDTO)
         {
-            var adm = _context.Set<Administrator>().Where(a => a.Email == loginDTO.Email && a.Password == loginDTO.Password).FirstOrDefault();
+            var adm = _context.Administrators.Where(a => a.Email == loginDTO.Email && a.Password == loginDTO.Password).FirstOrDefault();
             return adm;
         }
 
         public Administrator Insert(Administrator administrator)
         {
-            _context.Set<Administrator>().Add(administrator);
+            _context.Administrators.Add(administrator); // Use the specific DbSet
             _context.SaveChanges();
             return administrator;
         }
 
-        public List <Administrator> GetAllAdministrators(int? page)
+        public List<Administrator> GetAllAdministrators(int? page)
         {
-            var query = _context.Set<Administrator>().AsQueryable();
+            var query = _context.Administrators.AsQueryable(); // Use the specific DbSet
 
             int itensPerPage = 10;
 
@@ -43,16 +41,15 @@ namespace minimal_api.Domain.Services
             return query.ToList();
         }
 
-        public Administrator FindById(int id)
+        public Administrator? FindById(int id) // Made return type nullable to match usage
         {
-            var adm = _context.Set<Administrator>().Where(a => a.Id == id).FirstOrDefault();
-            return adm;
+            return _context.Administrators.Where(v => v.Id == id).FirstOrDefault();
         }
 
         public List<Administrator> All(int? page)
         {
             return GetAllAdministrators(page);
         }
-
     }
 }
+

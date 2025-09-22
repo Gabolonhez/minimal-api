@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using minimal_api.Domain.Enuns;
+using minimal_api.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,7 +20,6 @@ namespace minimal_api.Domain.Entities
         public string Password { get; set; } = default!;
 
         [Required]
-        [StringLength(15)]
-        public Profile Profile { get; set; } = default!;
+        public Profile Profile { get; set; } // Enum type, no StringLength needed
     }
 }

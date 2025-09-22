@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using minimal_api.Domain.Entities;
+using minimal_api.Domain.Enums; // Add this using
 
 namespace minimal_api.Infraestructure.Db
 {
@@ -15,8 +16,8 @@ namespace minimal_api.Infraestructure.Db
             _configuration = configuration;
         }
 
-        // (Opcional) mantém a propriedade DbSet
-        public DbSet<Administrator> Admnistrators { get; set; } = null!;
+        // Fixed typo: Admnistrators -> Administrators
+        public DbSet<Administrator> Administrators { get; set; } = null!;
 
         public DbSet<Vehicle> Vehicles { get; set; } = null!;
 
@@ -26,9 +27,9 @@ namespace minimal_api.Infraestructure.Db
                 new Administrator
                 {
                     Id = 1,
-                    Email = "admnistrator@test.com",
+                    Email = "administrator@test.com", // Fixed typo
                     Password = "123456",
-                    Profile = "Admin"
+                    Profile = Profile.Adm // Use enum value instead of string
                 }
             );
         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using minimal_api.Domain.DTOs;
 using minimal_api.Domain.Entities;
-using minimal_api.Domain.Enuns;
+using minimal_api.Domain.Enums;
 using minimal_api.Domain.Interfaces;
 using minimal_api.Domain.ModelsViews;
 using minimal_api.Domain.Services;
@@ -39,6 +39,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IAdministratorService, AdministratorService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<DbContext>(provider => provider.GetService<ApplicationDbContext>()!);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -80,10 +81,10 @@ string GenerateJwtToken(Administrator administrator)
     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
     var claims = new List<Claim>()
-    {
-        new Claim("Email", administrator.Email),
-        new Claim("Profile", administrator.Profile.ToString())
-    };
+{
+    new Claim("Email", administrator.Email),
+    new Claim("Profile", administrator.Profile.ToString())
+};
 
     var token = new JwtSecurityToken(
         claims: claims,
@@ -104,7 +105,7 @@ app.MapPost("administrators/login", (LoginDTO loginDTO, IAdministratorService ad
         return Results.Ok(new LoggedAdmin
         {
             Email = admin.Email,
-            Profile = admin.Profile.ToString(),
+            Profile = admin.Profile,
             Token = token
         });
     }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="MSTest" Version="4.0.0-preview.25415.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>

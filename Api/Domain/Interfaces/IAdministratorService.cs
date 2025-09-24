@@ -9,8 +9,8 @@ namespace minimal_api.Domain.Interfaces
 
         Administrator Insert(Administrator administrator);
 
-        Administrator FindById(int id);
+        Administrator? FindById(int id); // Made return type nullable
+        
         List<Administrator> All(int? page);
-
     }
 }

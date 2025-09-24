@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var key = builder.Configuration.GetSection("Jwt").ToString();
 
-if (string.IsNullOrEmpty(key)) 
+if (string.IsNullOrEmpty(key))
     key = "123456";
 
 builder.Services.AddAuthentication(option =>
@@ -74,7 +74,7 @@ app.MapGet("/", () => Results.Json(new Home())).WithTags("Home");
 #region Administrators
 string GenerateJwtToken(Administrator administrator)
 {
-    if (string.IsNullOrEmpty(key)) 
+    if (string.IsNullOrEmpty(key))
         return string.Empty;
 
     var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(key));
@@ -113,7 +113,7 @@ app.MapPost("administrators/login", (LoginDTO loginDTO, IAdministratorService ad
     {
         return Results.Unauthorized();
     }
-}).RequireAuthorization().WithTags("Admnistrators");
+}).WithTags("Administrators");
 
 app.MapGet("administrators/All", (int? page, IAdministratorService administratorService) =>
 {
@@ -185,7 +185,7 @@ app.MapPost("administrators/", (AdministratorDTO administratorDTO, IAdministrato
         Email = administrator.Email,
         Profile = administrator.Profile
     });
-   
+
 }).RequireAuthorization().WithTags("Admnistrators");
 
 #endregion
@@ -196,7 +196,7 @@ ValidationErrors validateDTO(VehicleDTO vehicleDTO)
 {
     var validation = new ValidationErrors
     {
-        Messages  = new List<string>()
+        Messages = new List<string>()
     };
 
 
@@ -214,7 +214,7 @@ ValidationErrors validateDTO(VehicleDTO vehicleDTO)
 
 app.MapPost("/vehicles", (VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
 {
-   var validation = validateDTO(vehicleDTO);
+    var validation = validateDTO(vehicleDTO);
 
     if (validation.Messages.Count > 0)
         return Results.BadRequest(validation);
@@ -251,7 +251,7 @@ app.MapGet("/vehicles/{id}", (int id, IVehicleService vehicleService) =>
     return Results.Ok(vehicle);
 }).RequireAuthorization().WithTags("Vehicles");
 
-app.MapPut("/vehicles/{id}", (int id,  VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
+app.MapPut("/vehicles/{id}", (int id, VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
 {
     var vehicle = vehicleService.GetById(id);
     if (vehicle == null) return Results.NotFound();
@@ -260,7 +260,7 @@ app.MapPut("/vehicles/{id}", (int id,  VehicleDTO vehicleDTO, IVehicleService ve
 
     if (validation.Messages.Count > 0)
         return Results.BadRequest(validation);
- 
+
 
     vehicle.Name = vehicleDTO.Name;
     vehicle.Brand = vehicleDTO.Brand;
@@ -311,3 +311,6 @@ app.MapControllers();
 app.Run();
 
 #endregion
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program { }

@@ -1,6 +1,7 @@
-using MiniamlApi.Domain.Entities;
+using minimal_api.Domain.Entities;
+using minimal_api.Domain.Enums;
 
-namepasce Test.Domain.Entities;
+namespace Test.Domain.Entities;
 
 [TestClass]
 
@@ -17,13 +18,13 @@ public class AdministratorTest
         adm.Id = 1;
         adm.Email = "test@test.com";
         adm.Password = "Test123";
-        adm.Profile = "Admin";
+        adm.Profile = Profile.Adm;
 
         // Assert
         Assert.AreEqual(1, adm.Id);
         Assert.AreEqual("test@test.com", adm.Email);
         Assert.AreEqual("Test123", adm.Password);
-        Assert.AreEqual("Admin", adm.Profile);
+        Assert.AreEqual(Profile.Adm, adm.Profile);
 
     }
 }
